@@ -1,0 +1,12 @@
+
+Tema branco
+linha vermelha vertical
+232
+96
+112
+
+linha azul horizontal
+219
+205
+235
+
