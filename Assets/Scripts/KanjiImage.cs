@@ -16,7 +16,17 @@ namespace KanjiImage.Game
             instance = this;
 
             kanjiIdeograms = new Dictionary<int, Kanji>();
+
             kanjiIdeograms.Add(0, new Kanji("禁", "止", "きんし"));
+            kanjiIdeograms.Add(1, new Kanji("禁", "煙", "きんえん"));
+            kanjiIdeograms.Add(2, new Kanji("煙", "", "けむり"));
+            kanjiIdeograms.Add(3, new Kanji("静", "か", "静か"));
+            kanjiIdeograms.Add(4, new Kanji("危", "ない", "あぶない"));
+            kanjiIdeograms.Add(5, new Kanji("危", "険", "きけん"));
+            kanjiIdeograms.Add(6, new Kanji("関", "心", "かんしん"));
+            kanjiIdeograms.Add(7, new Kanji("関", "係", "かんけい"));
+            kanjiIdeograms.Add(8, new Kanji("落", "ちる", "おちる"));
+            kanjiIdeograms.Add(9, new Kanji("石", "", "いし"));
         }
 
         void Start()
@@ -31,7 +41,14 @@ namespace KanjiImage.Game
 
         public Kanji ChooseKanjiSet()
         {
-            return kanjiIdeograms[0];
+            int idKey = Random.Range(0, kanjiIdeograms.Count);
+
+            Kanji kanji = new Kanji();
+
+            kanji = kanjiIdeograms[idKey];
+            kanji.id = idKey;
+
+            return kanji;
         }
     }
 

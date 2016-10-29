@@ -5,6 +5,8 @@ namespace KanjiImage.Game
 {
     public class Kanji
     {
+        public int id;
+
         public string main;
         public string complete;
         public string onyomi;

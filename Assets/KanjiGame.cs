@@ -3,47 +3,84 @@ using System.Collections;
 using UnityEngine.UI;
 using KanjiImage.Game;
 
-public class KanjiGame : MonoBehaviour
+namespace KanjiImage.Game
 {
-    public Text[] kanjiSet;
-
-    public Kanji currentKanji;
-
-    public AudioSource audioSource;
-
-    void Awake()
+    public enum KanjiGameStatus
     {
-        currentKanji = new Kanji();
-
-        audioSource = GetComponent<AudioSource>();
+        準備する,
+        漢字選ぶ,
+        答えする,
     }
 
-	// Use this for initialization
-	void Start ()
+    public class KanjiGame : MonoBehaviour
     {
-        currentKanji = KanjiImage.Game.KanjiImage.instance.ChooseKanjiSet();
+        public static KanjiGame instance;
 
-        kanjiSet[0].text = "_";
-        kanjiSet[1].text = currentKanji.complete;
-        kanjiSet[2].text = currentKanji.onyomi;
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	
-	}
+        public KanjiGameStatus status;
 
-    public void KanjiWa(string kanjiIdeogram)
-    {
-        if (kanjiIdeogram.Equals(currentKanji.main))
+        public Text[] kanjiSet;
+
+        public Kanji currentKanji;
+
+        public AudioSource audioSource;
+
+        public AudioClip correct;
+        public AudioClip notcorrect;
+
+        public int kanjiID;
+
+        void Awake()
         {
-            kanjiSet[0].text = currentKanji.main;
+            instance = this;
+
+            currentKanji = new Kanji();
+
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+            WarmUp();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void WarmUp()
+        {
+            Invoke("ChooseKanji", 3.0f);
+        }
+
+        public void ChooseKanji()
+        {
+            currentKanji = KanjiImage.instance.ChooseKanjiSet();
+
+            kanjiID = currentKanji.id;
+
+            kanjiSet[0].text = "";
+            kanjiSet[1].text = currentKanji.complete;
+            kanjiSet[2].text = currentKanji.onyomi;
+        }
+
+        public void KanjiWa(string kanjiIdeogram)
+        {
+            if (kanjiIdeogram.Equals(currentKanji.main))
+            {
+                kanjiSet[0].text = currentKanji.main;
+
+                audioSource.clip = correct;
+            } else
+                audioSource.clip = notcorrect;
 
             if (!audioSource.isPlaying)
-            {
                 audioSource.Play();
-            }
+
+            WarmUp();
         }
     }
 }
+
